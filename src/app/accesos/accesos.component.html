@@ -1,0 +1,203 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center">Registro de Acceso</h2>
+  <form (ngSubmit)="onSubmit()"  #accesoForm = "ngForm">
+    <div class="form-group" style="margin-top: 2rem;">
+
+      <label>Id Acceso:</label>
+      <div *ngFor="let acceso of accesos">
+        <input
+          *ngIf="acceso.idAcceso == Nacceso.idAcceso"
+          type="hidden"
+          class="form-control"
+          [(ngModel)]="Nacceso.idAcceso"
+          disabled="true"
+          name="idAcceso"
+          required
+        />
+      </div>
+
+      <input
+        type="number"
+        class="form-control"
+        id="idAcceso"
+        [(ngModel)]="Nacceso.idAcceso"
+        name="idAcceso"
+        required
+
+        max="9999999999"
+        placeholder="Digita la identificacion del acceso"
+        #idAcceso = "ngModel"
+
+      />
+
+      <div class="alert alert-danger" *ngIf= "idAcceso.invalid && (idAcceso.dirty || idAcceso.touched)">
+        <div *ngIf = 'idAcceso.errors.required'>
+          Digite la identificacion por favor
+        </div>
+        <div *ngIf = "idAcceso.errors.max">
+          La identificacion tiene que tener como maximo 10 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Fecha:</label>
+      <div *ngFor="let acceso of accesos">
+        <input
+          *ngIf="acceso.idAcceso == Nacceso.idAcceso"
+          type="hidden"
+          disabled="true"
+          class="form-control"
+          [(ngModel)]="Nacceso.fecha"
+          name="fecha"
+          required
+          #fecha = "ngModel"
+        />
+      </div>
+
+      <input
+        type="date"
+        class="form-control"
+        id="fecha"
+        [(ngModel)]="Nacceso.fecha"
+        name="fecha"
+        required
+        maxlength="50"
+        #fecha = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "fecha.invalid && (fecha.dirty || fecha.touched)">
+        <div *ngIf = 'fecha.errors.required'>
+          Digite la descripcion por favor
+        </div>
+        <div *ngIf = "fecha.errors.maxlength">
+          La descripcion tiene que tener como maximo 50 caracteres
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let acceso of accesos">
+      <div *ngIf="acceso.idAcceso == Nacceso.idAcceso" class="form-group" style="margin-top: 1rem;">
+        <label>Numero de visitante:</label>
+        <input
+
+          type="number"
+          class="form-control"
+          id="visitante"
+          [(ngModel)]="Nacceso.numVisitante"
+          name="visitante"
+
+          disabled="true"
+          maxlength="50"
+
+          #visitante = "ngModel"
+        />
+
+      </div>
+    </div>
+
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Filial:</label>
+      <div *ngFor="let acceso of accesos">
+        <input type="hidden" matNativeControl *ngIf="acceso.idAcceso == Nacceso.idAcceso" disabled="true" [(ngModel)]="Nacceso.numFilial" required name="select" #numFilial = "ngModel" >
+      </div>
+
+      <select matNativeControl [(ngModel)]="Nacceso.numFilial" required name="select" #numFilial = "ngModel" >
+
+        <option *ngFor="let filial of filiales" [value]="filial.id">
+          {{filial.descripcion}}
+        </option>
+      </select>
+      <div class="alert alert-danger" *ngIf= "numFilial.invalid && (numFilial.dirty || numFilial.touched)">
+        <div *ngIf = 'numFilial.errors.required'>
+          Elija la filial por favor
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>hora de entrada:</label>
+      <div *ngFor="let acceso of accesos">
+        <input
+         *ngIf="acceso.idAcceso == Nacceso.idAcceso"
+          type="hidden"
+          class="form-control"
+          disabled="true"
+          [(ngModel)]="Nacceso.entrada"
+          name="entrada"
+          #entrada = "ngModel"
+        />
+      </div>
+
+      <input
+        type="time"
+        class="form-control"
+        id="entrada"
+        [(ngModel)]="Nacceso.entrada"
+        name="entrada"
+        required
+        #entrada = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "entrada.invalid && (entrada.dirty || entrada.touched)">
+        <div *ngIf = 'entrada.errors.required'>
+          Digite la hora de entrada por favor
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let acceso of accesos">
+      <div *ngIf="acceso.idAcceso == Nacceso.idAcceso" class="form-group" style="margin-top: 1rem;">
+        <label>hora de salida:</label>
+
+        <input
+          type="time"
+          class="form-control"
+          id="salida"
+
+          [(ngModel)]="Nacceso.salida"
+          name="salida"
+          #salida = "ngModel"
+        />
+        <div class="alert alert-danger" *ngIf= "salida.invalid && (salida.dirty || salida.touched)">
+
+        </div>
+      </div>
+    </div>
+
+
+    <button class="btn btn-success" style="margin-top: 2rem;" [disabled]= "!accesoForm.form.valid">Guardar</button>
+
+  </form>
+</div>
+
+
+<h2>Lista Accesos</h2>
+<table class="table table-striped" >
+  <thead class="table-dark">
+    <tr>
+      <th>Identificador</th>
+      <th>fecha</th>
+      <th>Visitante</th>
+      <th>Filial</th>
+      <th>Hora Entrada</th>
+      <th>Hora Salida</th>
+    </tr>
+  </thead>
+
+  <tbody *ngFor="let filial of filiales">
+
+    <tr *ngFor="let acceso of accesos">
+
+          <td *ngIf = 'acceso.numFilial == filial.id'>{{ acceso.idAcceso }}</td>
+          <td *ngIf = 'acceso.numFilial == filial.id'>{{ acceso.fecha }}</td>
+          <td *ngIf = 'acceso.numFilial == filial.id'>{{ acceso.numVisitante }}</td>
+          <td *ngIf = 'acceso.numFilial == filial.id'> {{ filial.descripcion }} </td>
+          <td *ngIf = 'acceso.numFilial == filial.id'>{{ acceso.entrada}}</td>
+          <td *ngIf = 'acceso.numFilial == filial.id'>{{ acceso.salida}}</td>
+          <td *ngIf = 'acceso.numFilial == filial.id'> <button (click)="eliminarAcceso(acceso.idAcceso)" class="btn btn-info" style="margin-right: 1rem;">Eliminar</button>
+            <button (click)="actualizarAcceso(acceso.idAcceso)" class="btn btn-info" >Editar</button></td>
+    </tr>
+  </tbody>
+
+</table>
+
+
+

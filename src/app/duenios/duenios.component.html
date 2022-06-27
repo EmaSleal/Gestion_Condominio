@@ -1,0 +1,178 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center">Registro de Dueño</h2>
+  <form (ngSubmit)="onSubmit()"  #empleadoForm = "ngForm">
+    <div class="form-group" style="margin-top: 2rem;">
+      <label>Id Dueño:</label>
+      <input
+        *ngIf="Nduenio.idDuenio && Nduenio.nombre && Nduenio.apellido1 && Nduenio.apellido2 && Nduenio.telefono && Nduenio.correo"
+        disabled="true"
+        type="hidden"
+        [(ngModel)]="Nduenio.idDuenio"
+        name="idDuenio"
+        required
+        #idDuenio = "ngModel"
+      />
+      <input
+        type="number"
+        class="form-control"
+        id="idDuenio"
+        [(ngModel)]="Nduenio.idDuenio"
+        name="idDuenio"
+        required
+        max="999999999999999"
+        placeholder="Digita la identificacion del dueño"
+        #idDuenio = "ngModel"
+      />
+
+      <div class="alert alert-danger" *ngIf= "idDuenio.invalid && (idDuenio.dirty || idDuenio.touched)">
+        <div *ngIf = 'idDuenio.errors.required'>
+          Digite la identificacion por favor
+        </div>
+        <div *ngIf = "idDuenio.errors.max">
+          La identificacion tiene que tener como maximo 15 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Nombre:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nombre"
+        [(ngModel)]="Nduenio.nombre"
+        name="nombre"
+        required
+        maxlength="20"
+        placeholder="Digita el nombre del dueño"
+        #nombre = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "nombre.invalid && (nombre.dirty || nombre.touched)">
+        <div *ngIf = 'nombre.errors.required'>
+          Digite su nombre por favor
+        </div>
+        <div *ngIf = "nombre.errors.maxlength">
+          El nombre tiene que tener como maximo 20 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Apellido 1:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="apellido1"
+        [(ngModel)]="Nduenio.apellido1"
+        name="apellido1"
+        required
+        maxlength="20"
+        placeholder="Digita el primer apellido del dueño"
+        #apellido1 = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "apellido1.invalid && (apellido1.dirty || apellido1.touched)">
+        <div *ngIf = 'apellido1.errors.required'>
+          Digite el primer apellido por favor
+        </div>
+        <div *ngIf = "apellido1.errors.maxlength">
+          El primer apellido tiene que tener como maximo 20 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Apellido 2:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="apellido2"
+        [(ngModel)]="Nduenio.apellido2"
+        name="apellido2"
+        required
+        maxlength="20"
+        placeholder="Digita el segundo apellido del dueño"
+        #apellido2 = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "apellido2.invalid && (apellido2.dirty || apellido2.touched)">
+        <div *ngIf = 'apellido2.errors.required'>
+          Digite el segundo apellido por favor
+        </div>
+        <div *ngIf = "apellido2.errors.maxlength">
+          El segundo apellido tiene que tener como maximo 20 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Telefono:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="telefono"
+        [(ngModel)]="Nduenio.telefono"
+        name="telefono"
+        required
+        max="99999999"
+        placeholder="Digita el numero telefonico del dueño"
+        #telefono = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "telefono.invalid && (telefono.dirty || telefono.touched)">
+        <div *ngIf = 'telefono.errors.required'>
+          Digite el numero telefonico por favor
+        </div>
+        <div *ngIf = "telefono.errors.max">
+          El numero telefonico tiene que tener como maximo 8 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Correo Electronico:</label>
+      <input
+        type="email"
+        class="form-control"
+        id="correo"
+        [(ngModel)]="Nduenio.correo"
+        name="correo"
+        pattern ="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
+        required
+        placeholder="Digita el email del dueño"
+        #correo = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "correo.invalid && (correo.dirty || correo.touched)">
+        <div *ngIf = "correo.errors.required">
+          Digite su email por favor
+        </div>
+        <div *ngIf = "correo.errors.pattern">
+          Por favor digite el email con el siguiente formato : user100@gmail.com
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" style="margin-top: 2rem;" [disabled]= "!empleadoForm.form.valid">Guardar</button>
+
+  </form>
+</div>
+
+
+<h2>Lista Dueños</h2>
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>Identificador</th>
+      <th>Nombre</th>
+      <th>Telefono</th>
+      <th>Correo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let duenio of duenios">
+      <td>{{ duenio.idDuenio }}</td>
+      <td>{{ duenio.nombre + " " + duenio.apellido1 }}</td>
+      <td>{{ duenio.telefono }}</td>
+      <td>{{ duenio.correo }}</td>
+      <td> <button (click)="eliminarDuenio(duenio.idDuenio)" class="btn btn-info" >Eliminar</button></td>
+      <td> <button (click)="actualizarDuenio(duenio.idDuenio)" class="btn btn-info" >Editar</button></td>
+
+    </tr>
+  </tbody>
+</table>

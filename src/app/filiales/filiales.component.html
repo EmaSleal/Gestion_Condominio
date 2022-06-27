@@ -1,0 +1,103 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center">Registro de Filial</h2>
+  <form (ngSubmit)="onSubmit()"  #filialForm = "ngForm">
+    <div class="form-group" style="margin-top: 2rem;">
+      <label>Id Filial:</label>
+      <input
+        type="hidden"
+        *ngIf="Nfilial.id && Nfilial.idDuenio && Nfilial.descripcion"
+        disabled="true"
+        [(ngModel)]="Nfilial.id"
+        name="idFilial"
+        required
+        #idFilial = "ngModel"
+      />
+      <input
+        type="number"
+        class="form-control"
+        id="idFilial"
+        [(ngModel)]="Nfilial.id"
+        name="idFilial"
+        required
+        max="9999999999"
+        placeholder="Digita la identificacion de la filial"
+        #idFilial = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "idFilial.invalid && (idFilial.dirty || idFilial.touched)">
+        <div *ngIf = 'idFilial.errors.required'>
+          Digite la identificacion por favor
+        </div>
+        <div *ngIf = "idFilial.errors.max">
+          La identificacion tiene que tener como maximo 10 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Dueño:</label>
+
+      <select matNativeControl [(ngModel)]="Nfilial.idDuenio" required name="select" #idDueno = "ngModel" placeholder="Digita al dueño">
+
+        <option *ngFor="let duenio of duenios" [value]="duenio.idDuenio">
+          {{duenio.nombre}}
+        </option>
+      </select>
+      <div class="alert alert-danger" *ngIf= "idDueno.invalid && (descripcion.dirty || idDueno.touched)">
+        <div *ngIf = 'idDueno.errors.required'>
+          Digite al dueño por favor
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Descripcion:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="descripcion"
+        [(ngModel)]="Nfilial.descripcion"
+        name="descripcion"
+        required
+        maxlength="50"
+        placeholder="Digita la descripcion de la filial"
+        #descripcion = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+        <div *ngIf = 'descripcion.errors.required'>
+          Digite la descripcion por favor
+        </div>
+        <div *ngIf = "descripcion.errors.maxlength">
+          La descripcion tiene que tener como maximo 50 caracteres
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" style="margin-top: 2rem;" [disabled]= "!filialForm.form.valid">Guardar</button>
+
+  </form>
+</div>
+
+
+<h2>Lista Filiales</h2>
+<table class="table table-striped" >
+  <thead class="table-dark">
+    <tr>
+      <th>Identificador</th>
+      <th>Dueño</th>
+      <th>Descripcion</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let duenio of duenios">
+    <tr *ngFor="let filial of filiales">
+
+          <td *ngIf = 'duenio.idDuenio == filial.idDuenio'>{{ filial.id }}</td>
+          <td *ngIf = 'duenio.idDuenio == filial.idDuenio'> {{ duenio.nombre }} </td>
+          <td *ngIf = 'duenio.idDuenio == filial.idDuenio'>{{ filial.descripcion}}</td>
+          <td *ngIf = 'duenio.idDuenio == filial.idDuenio'> <button (click)="eliminarfilial(filial.id)" class="btn btn-info" style="margin-right: 1rem;">Eliminar</button>
+            <button (click)="actualizarfilial(filial.id)" class="btn btn-info" >Editar</button></td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+

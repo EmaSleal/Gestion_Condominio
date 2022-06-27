@@ -1,0 +1,155 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center">Registro de Cuota Extra</h2>
+  <form (ngSubmit)="onSubmit()"  #filialForm = "ngForm">
+    <div class="form-group" style="margin-top: 2rem;">
+      <label>Id Cuota Extra:</label>
+      <input
+        type="hidden"
+        *ngIf="NcuotasExtra.id  && NcuotasExtra.fecha && NcuotasExtra.monto && NcuotasExtra.numDuenio && NcuotasExtra.descripcion"
+        disabled="true"
+        [(ngModel)]="NcuotasExtra.id"
+        name="idcuota"
+        required
+        #idcuota = "ngModel"
+      />
+      <input
+        type="number"
+        class="form-control"
+        id="idcuota"
+        [(ngModel)]="NcuotasExtra.id"
+        name="idcuota"
+        required
+        max="9999999999"
+        placeholder="Digita la identificacion de la cuota extra"
+        #idcuota = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "idcuota.invalid && (idcuota.dirty || idcuota.touched)">
+        <div *ngIf = 'idcuota.errors.required'>
+          Digite la identificacion por favor
+        </div>
+        <div *ngIf = "idcuota.errors.max">
+          La identificacion tiene que tener como maximo 10 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Fecha:</label>
+      <input
+        type="date"
+        class="form-control"
+        id="fecha"
+        [(ngModel)]="NcuotasExtra.fecha"
+        name="fecha"
+        required
+        maxlength="50"
+        placeholder="Digita la fecha"
+        #fecha = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "fecha.invalid && (fecha.dirty || fecha.touched)">
+        <div *ngIf = 'fecha.errors.required'>
+          Digite la fecha por favor
+        </div>
+        <div *ngIf = "fecha.errors.maxlength">
+          La fecha tiene que tener como maximo 50 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Monto:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="monto"
+        [(ngModel)]="NcuotasExtra.monto"
+        name="monto"
+        required
+        maxlength="50"
+        placeholder="Digita el monto"
+        #monto = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "monto.invalid && (monto.dirty || monto.touched)">
+        <div *ngIf = 'monto.errors.required'>
+          Digite el monto por favor
+        </div>
+        <div *ngIf = "monto.errors.maxlength">
+          El monto tiene que tener como maximo 50 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Dueño:</label>
+      <input type="hidden" *ngIf="NcuotasExtra.numDuenio" disabled="true"  [(ngModel)]="NcuotasExtra.numDuenio" required name="select" #idDueno = "ngModel" >
+      <select matNativeControl [(ngModel)]="NcuotasExtra.numDuenio" required name="select" #idDueno = "ngModel" >
+
+        <option *ngFor="let duenio of duenios" [value]="duenio.idDuenio">
+          {{duenio.nombre}}
+        </option>
+      </select>
+      <div class="alert alert-danger" *ngIf= "idDueno.invalid && (descripcion.dirty || idDueno.touched)">
+        <div *ngIf = 'idDueno.errors.required'>
+          Digite al dueño por favor
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label>Descripcion:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="descripcion"
+        [(ngModel)]="NcuotasExtra.descripcion"
+        name="descripcion"
+        required
+        maxlength="50"
+        placeholder="Digita la descripcion de la filial"
+        #descripcion = "ngModel"
+      />
+      <div class="alert alert-danger" *ngIf= "descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+        <div *ngIf = 'descripcion.errors.required'>
+          Digite la descripcion por favor
+        </div>
+        <div *ngIf = "descripcion.errors.maxlength">
+          La descripcion tiene que tener como maximo 50 caracteres
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" style="margin-top: 2rem;" [disabled]= "!filialForm.form.valid">Guardar</button>
+
+  </form>
+</div>
+
+
+<h2>Lista Cuota Extra</h2>
+<table class="table table-striped" >
+  <thead class="table-dark">
+    <tr>
+      <th>Identificador</th>
+      <th>Fecha</th>
+      <th>Monto</th>
+      <th>Dueño</th>
+      <th>Descripcion</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let duenio of duenios">
+    <tr *ngFor="let cuotasExtra of cuotasExtras">
+
+          <td *ngIf = 'duenio.idDuenio == cuotasExtra.numDuenio'>{{ cuotasExtra.id }}</td>
+          <td *ngIf = 'duenio.idDuenio == cuotasExtra.numDuenio'>{{ cuotasExtra.fecha }}</td>
+          <td *ngIf = 'duenio.idDuenio == cuotasExtra.numDuenio'>{{ cuotasExtra.monto }}</td>
+
+          <td *ngIf = 'duenio.idDuenio == cuotasExtra.numDuenio'> {{ duenio.nombre }} </td>
+
+          <td *ngIf = 'duenio.idDuenio == cuotasExtra.numDuenio'>{{ cuotasExtra.descripcion}}</td>
+          <td *ngIf = 'duenio.idDuenio == cuotasExtra.numDuenio'> <button (click)="eliminarCuotasExtras(cuotasExtra.id)" class="btn btn-info" style="margin-right: 1rem;">Eliminar</button>
+            <button (click)="actualizarCuotaExtra(cuotasExtra.id)" class="btn btn-info" >Editar</button></td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+
